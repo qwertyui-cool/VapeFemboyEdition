@@ -1,5 +1,10 @@
+local tt = {
+	[1] = "You can RightClick some modules to change settings for them!",
+	[2] = "Config not loading? Try deleting it or reporting it in our Discord Server!",
+	[3] = "Join our Discord Server to get notified when Vape Femboy Edition gets updated!"
+}
 if shared.VapeExecuted then
-	local VERSION = "4.08"..(shared.VapePrivate and " PRIVATE" or "")
+	local VERSION = "release-1.9.22.5"..(shared.VapePrivate and " PRIVATE" or "").." | TIP: "..tt[math.random(1,3)]
 	local customdir = (shared.VapePrivate and "vapeprivate/" or "vape/")
 	local rainbowvalue = 0
 	local cam = game:GetService("Workspace").CurrentCamera
@@ -49,7 +54,7 @@ if shared.VapeExecuted then
 			end
 			return readfile("vape/"..scripturl)
 		else
-			local res = game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/"..scripturl, true)
+			local res = game:HttpGet("https://raw.githubusercontent.com/qwertyui-cool/VapeFemboyEdition/main/"..scripturl, true)
 			assert(res ~= "404: Not Found", "File not found")
 			return res
 		end
@@ -138,7 +143,7 @@ if shared.VapeExecuted then
 				textlabel:Remove()
 			end)
 			local req = requestfunc({
-				Url = "https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/"..path:gsub("vape/assets", "assets"),
+				Url = "https://raw.githubusercontent.com/qwertyui-cool/VapeFemboyEdition/main/"..path:gsub("vape/assets", "assets"),
 				Method = "GET"
 			})
 			writefile(path, req.Body)
