@@ -2221,11 +2221,21 @@ runcode(function()
 							local pulsenum = (speedpulseduration["Value"] / 100)
 							local newvelo = movevec * (speedval["Value"] + (entity.character.Humanoid.WalkSpeed - speedval["Value"]) * (1 - (math.max(pulsetick - tick(), 0)) / pulsenum))
 							entity.character.HumanoidRootPart.Velocity = Vector3.new(newvelo.X, entity.character.HumanoidRootPart.Velocity.Y, newvelo.Z)
-						elseif speedmethod["Value"] == "WalkSpeed" then 
-							if oldwalkspeed == nil then
-								oldwalkspeed = entity.character.Humanoid.WalkSpeed
+						elseif speedmethod["Value"] == "Spoof" then
+							for i,v in pairs(entity.character.Humanoid:GetPlayingAnimationTracks()) do
+								if v.Name == "WalkAnim" or v.Name == "RunAnim" then
+									v:AdjustSpeed(speedval["Value"] / 16)
+								end
 							end
-							entity.character.Humanoid.WalkSpeed = speedval["Value"]
+							local newpos = (movevec * (math.clamp(speedval["Value"] - entity.character.Humanoid.WalkSpeed, 0, 1000000000) * delta))
+							if speedwallcheck["Enabled"] then
+								local raycastparameters = RaycastParams.new()
+								raycastparameters.FilterType = Enum.RaycastFilterType.Blacklist
+								raycastparameters.FilterDescendantsInstances = {lplr.Character, cam}
+								local ray = workspace:Raycast(entity.character.HumanoidRootPart.Position, newpos, raycastparameters)
+								if ray then newpos = (ray.Position - entity.character.HumanoidRootPart.Position) end
+							end
+							entity.character.HumanoidRootPart.CFrame = entity.character.HumanoidRootPart.CFrame + newpos
 						end
 						if speedjump["Enabled"] and (speedjumpalways["Enabled"] or killauranear) then
 							if (entity.character.Humanoid.FloorMaterial ~= Enum.Material.Air) and entity.character.Humanoid.MoveDirection ~= Vector3.new() then
@@ -2261,7 +2271,7 @@ runcode(function()
 	})
 	speedmethod = speed.CreateDropdown({
 		["Name"] = "Mode", 
-		["List"] = {"Velocity", "CFrame", "TP", "Pulse", "WalkSpeed"},
+		["List"] = {"Velocity", "CFrame", "TP", "Pulse", "WalkSpeed","Spoof"},
 		["Function"] = function(val)
 			if oldwalkspeed then
 				entity.character.Humanoid.WalkSpeed = oldwalkspeed
