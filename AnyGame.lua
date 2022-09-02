@@ -26,7 +26,7 @@ local function GetURL(scripturl)
 		assert(betterisfile("vape/"..scripturl), "File not found : vape/"..scripturl)
 		return readfile("vape/"..scripturl)
 	else
-		local res = game:HttpGet("https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/"..scripturl, true)
+		local res = game:HttpGet("https://raw.githubusercontent.com/qwertyui-cool/VapeFemboyEdition/main/"..scripturl, true)
 		assert(res ~= "404: Not Found", "File not found : vape/"..scripturl)
 		return res
 	end
@@ -202,7 +202,7 @@ local function getcustomassetfunc(path)
 			textlabel:Remove()
 		end)
 		local req = requestfunc({
-			Url = "https://raw.githubusercontent.com/7GrandDadPGN/VapeV4ForRoblox/main/"..path:gsub("vape/assets", "assets"),
+			Url = "https://raw.githubusercontent.com/qwertyui-cool/VapeFemboyEdition/main/"..path:gsub("vape/assets", "assets"),
 			Method = "GET"
 		})
 		writefile(path, req.Body)
@@ -4503,6 +4503,9 @@ runcode(function()
 		["wisard"] = "Bullying",
 		["witch"] = "Bullying",
 		["magic"] = "Bullying",
+		["fembxy"] = "Bullying",
+		["fxmboy"] = "Bullying",
+		["fxmbxy"] = "Bullying",
 	}
 
 	local function removerepeat(str)
@@ -4545,6 +4548,8 @@ runcode(function()
 	end
 
 	local AutoReportNotify = {["Enabled"] = false}
+	local AutoReportChat = {["Enabled"] = false}
+	local AutoReportChatList = {["ObjectList"] = {}}
 	local chatconnection
 	AutoReport = GuiLibrary["ObjectsThatCanBeSaved"]["UtilityWindow"]["Api"].CreateOptionsButton({
 		["Name"] = "AutoReport",
@@ -4565,6 +4570,17 @@ runcode(function()
 									end)
 									if AutoReportNotify["Enabled"] then 
 										local warning = createwarning("AutoReport", "Reported "..plr.Name.." for\n"..reportreason..' ('..reportedmatch..')', 15)
+										if AutoReportChat["Enabled"] then
+											if #AutoReportChatList["ObjectList"] > 0 and AutoReportChatList["ObjectList"][math.random(1, #AutoReportChatList["ObjectList"])] then
+												local rawcms = #AutoReportChatList["ObjectList"] > 0 and AutoReportChatList["ObjectList"][math.random(1, #AutoReportChatList["ObjectList"])]
+												local rawcms1 = rawcms:gsub("<name>", (plr.DisplayName or plr.Name))
+												local rawcms2 = rawcms1:gsub("<report>", (reportreason))
+												local custommsg = rawcms2:gsub("<for>", (reportedmatch))
+												game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer(custommsg, "All")
+											else
+												game:GetService("ReplicatedStorage").DefaultChatSystemChatEvents.SayMessageRequest:FireServer("AutoReported "..plr.DisplayName or plr.Name.." for "..reportreason" ("..reportedmatch..")", "All")
+											end
+										end
 										pcall(function()
 											warning:GetChildren()[5].Position = UDim2.new(0, 46, 0, 38)
 										end)
@@ -4593,6 +4609,15 @@ runcode(function()
 		["Name"] = "Report Words",
 		["TempText"] = "phrase (to report)"
 	})
+	AutoReportChat = AutoReport.CreateToggle({
+		["Name"] = "Chat",
+		["Function"] = function(callback) AutoReportChatList["Object"].Visible = callback end
+	})
+	AutoReportChatList = AutoReport.CreateTextList({
+		["Name"] = "Chat Words",
+		["TempText"] = "<name> <report> <for>"
+	})
+	AutoReportChatList["Object"].Visible = false
 end)
 
 runcode(function()
