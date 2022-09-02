@@ -1,10 +1,11 @@
 local tt = {
 	[1] = "You can RightClick some modules to change settings for them!",
 	[2] = "Config not loading? Try deleting it or reporting it in our Discord Server!",
-	[3] = "Join our Discord Server to get notified when Vape Femboy Edition gets updated!"
+	[3] = "Join our Discord Server to get notified when Vape Femboy Edition gets updated!",
+	[4] = "jews are bad"
 }
 if shared.VapeExecuted then
-	local VERSION = "release-1.9.22.5"..(shared.VapePrivate and " PRIVATE" or "").." | TIP: "..tt[math.random(1,3)]
+	local VERSION = "release-2.9.22.6"..(shared.VapePrivate and " PRIVATE" or "").." | TIP: "..tt[math.random(1,4)]
 	local customdir = (shared.VapePrivate and "vapeprivate/" or "vape/")
 	local rainbowvalue = 0
 	local cam = game:GetService("Workspace").CurrentCamera
@@ -262,7 +263,7 @@ if shared.VapeExecuted then
 	hoverboxshadow.ScaleType = Enum.ScaleType.Slice
 	hoverboxshadow.SliceCenter = Rect.new(10, 10, 118, 118)
 	hoverboxshadow.Parent = hoverbox
-	local vertextsize = game:GetService("TextService"):GetTextSize("v"..VERSION, 25, Enum.Font.SourceSans, Vector2.new(99999, 99999))
+	local vertextsize = game:GetService("TextService"):GetTextSize(VERSION, 25, Enum.Font.SourceSans, Vector2.new(99999, 99999))
 	local vertext = Instance.new("TextLabel")
 	vertext.Name = "Version"
 	vertext.Size = UDim2.new(0, vertextsize.X, 0, 20)
