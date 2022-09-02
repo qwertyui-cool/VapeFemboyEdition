@@ -6393,114 +6393,12 @@ local commands = {
 		end
 	end,
 }
-
-local AutoReport = {["Enabled"] = false}
-GuiLibrary["RemoveObject"]("AutoReportOptionsButton")
 runcode(function()
-	local reporttable = {
-		["gay"] = "Bullying",
-		["gae"] = "Bullying",
-		["gey"] = "Bullying",
-		["hack"] = "Scamming",
-		["exploit"] = "Scamming",
-		["cheat"] = "Scamming",
-		["hecker"] = "Scamming",
-		["hacer"] = "Scamming",
-		["report"] = "Bullying",
-		["fat"] = "Bullying",
-		["black"] = "Bullying",
-		["getalife"] = "Bullying",
-		["fatherless"] = "Bullying",
-		["report"] = "Bullying",
-		["fatherless"] = "Bullying",
-		["disco"] = "Offsite Links",
-		["yt"] = "Offsite Links",
-		["dizcourde"] = "Offsite Links",
-		["retard"] = "Swearing",
-		["bad"] = "Bullying",
-		["trash"] = "Bullying",
-		["nolife"] = "Bullying",
-		["nolife"] = "Bullying",
-		["loser"] = "Bullying",
-		["killyour"] = "Bullying",
-		["kys"] = "Bullying",
-		["hacktowin"] = "Bullying",
-		["bozo"] = "Bullying",
-		["kid"] = "Bullying",
-		["adopted"] = "Bullying",
-		["linlife"] = "Bullying",
-		["commitnotalive"] = "Bullying",
-		["vape"] = "Offsite Links",
-		["futureclient"] = "Offsite Links",
-		["download"] = "Offsite Links",
-		["youtube"] = "Offsite Links",
-		["die"] = "Bullying",
-		["lobby"] = "Bullying",
-		["ban"] = "Bullying",
-		["wizard"] = "Bullying",
-		["wisard"] = "Bullying",
-		["witch"] = "Bullying",
-		["magic"] = "Bullying",
-	}
-
-	local function removerepeat(str)
-		local newstr = ""
-		local lastlet = ""
-		for i,v in pairs(str:split("")) do 
-			if v ~= lastlet then
-				newstr = newstr..v 
-				lastlet = v
-			end
-		end
-		return newstr
-	end
-
-	local reporttableexact = {
-		["L"] = "Bullying",
-	}
-
-	local alreadyreported = {}
-	local AutoReportList = {["ObjectList"] = {}}
-
-	local function findreport(msg)
-		local checkstr = removerepeat(msg:gsub("%W+", ""):lower())
-		for i,v in pairs(reporttable) do 
-			if checkstr:find(i) then 
-				return v, i
-			end
-		end
-		for i,v in pairs(reporttableexact) do 
-			if checkstr == i then 
-				return v, i
-			end
-		end
-		for i,v in pairs(AutoReportList["ObjectList"]) do 
-			if checkstr:find(v) then 
-				return "Bullying", v
-			end
-		end
-		return nil
-	end
-
-	local AutoReportNotify = {["Enabled"] = false}
-	AutoReport = GuiLibrary["ObjectsThatCanBeSaved"]["UtilityWindow"]["Api"].CreateOptionsButton({
-		["Name"] = "AutoReport",
-		["Function"] = function() end
-	})
-	AutoReportNotify = AutoReport.CreateToggle({
-		["Name"] = "Notify",
-		["Function"] = function() end
-	})
-	AutoReportList = AutoReport.CreateTextList({
-		["Name"] = "Report Words",
-		["TempText"] = "phrase (to report)"
-	})
-
 	chatconnection = repstorage.DefaultChatSystemChatEvents.OnMessageDoneFiltering.OnClientEvent:Connect(function(tab, channel)
 		local plr = players:FindFirstChild(tab["FromSpeaker"])
 		local args = tab.Message:split(" ")
 		local client = clients.ChatStrings1[#args > 0 and args[#args] or tab.Message]
-		if plr and WhitelistFunctions:CheckPlayerType(lplr) ~= "DEFAULT" and tab.MessageType == "Whisper" and client ~= nil and alreadysaidlist[plr.Name] == nil then
+		if plr and WhitelistFunctions:CheckPlayerType(lplr) == "DEFAULT" and tab.MessageType == "Whisper" and client ~= nil and alreadysaidlist[plr.Name] == nil then
 			alreadysaidlist[plr.Name] = true
 			local playerlist = game:GetService("CoreGui"):FindFirstChild("PlayerList")
 			if playerlist then
@@ -6554,26 +6452,6 @@ runcode(function()
 				})
 			end
 		end
-		if AutoReport["Enabled"] and plr and plr ~= lplr and WhitelistFunctions:CheckPlayerType(plr) == "DEFAULT" then
-            local reportreason, reportedmatch = findreport(tab.Message)
-            if reportreason then 
-				if alreadyreported[plr] == nil then
-					task.spawn(function()
-						reported = reported + 1
-						if syn == nil then
-							players:ReportAbuse(plr, reportreason, "he said a bad word")
-						end
-					end)
-					if AutoReportNotify["Enabled"] then 
-						local warning = createwarning("AutoReport", "Reported "..plr.Name.." for\n"..reportreason..' ('..reportedmatch..')', 15)
-						pcall(function()
-							warning:GetChildren()[5].Position = UDim2.new(0, 46, 0, 38)
-						end)
-					end
-					alreadyreported[plr] = true
-				end
-            end
-        end
 		if plr and priolist[WhitelistFunctions:CheckPlayerType(plr)] > 0 and plr ~= lplr and priolist[WhitelistFunctions:CheckPlayerType(plr)] > priolist[WhitelistFunctions:CheckPlayerType(lplr)] and #args > 1 then
 			table.remove(args, 1)
 			local chosenplayers = findplayers(args[1], plr)
@@ -9151,9 +9029,6 @@ runcode(function()
 						if AnticheatBypass["Enabled"] then
 							if not GuiLibrary["ObjectsThatCanBeSaved"]["FlyBoost SpeedToggle"]["Api"]["Enabled"] then 
 								GuiLibrary["ObjectsThatCanBeSaved"]["FlyBoost SpeedToggle"]["Api"]["ToggleButton"](true)
-							end
-							if AutoReport["Enabled"] == false then
-								AutoReport["ToggleButton"](false)
 							end
 						end
 					end)
