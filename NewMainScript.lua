@@ -1693,6 +1693,7 @@ local teleportfunc = game:GetService("Players").LocalPlayer.OnTeleport:Connect(f
 		end
 		if shared.VFEPrivate then
 			teleportstr = 'shared.VFEPrivate = true '..teleportstr
+		end
 		if shared.VapeCustomProfile then 
 			teleportstr = "shared.VapeCustomProfile = '"..shared.VapeCustomProfile.."'"..teleportstr
 		end
@@ -1863,14 +1864,14 @@ else
 			loadstring(publicrepo)()
 		end
 	end
+	if shared.VFEPrivate then
+		if pcall(function() readfile("vapefemboyedition/CustomModules/"..game.PlaceId..".lua") end) then
+			loadstring(readfile("vapefemboyedition/CustomModules/"..game.PlaceId..".lua"))()
+		end	
+	end
 	if shared.VapePrivate then
 		if pcall(function() readfile("vapeprivate/CustomModules/"..game.PlaceId..".lua") end) then
 			loadstring(readfile("vapeprivate/CustomModules/"..game.PlaceId..".lua"))()
-		end	
-	end
-	if shared.VFWPrivate then
-		if pcall(function() readfile("vapefemboyedition/CustomModules/"..game.PlaceId..".lua") end) then
-			loadstring(readfile("vapefemboyedition/CustomModules/"..game.PlaceId..".lua"))()
 		end	
 	end
 	GuiLibrary["LoadSettings"](shared.VapeCustomProfile)
