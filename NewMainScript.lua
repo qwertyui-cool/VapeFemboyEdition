@@ -6,7 +6,7 @@ local tt = {
 }
 local injected = true
 local oldrainbow = false
-local customdir = (shared.VapePrivate and "vapeprivate/" or "vape/")
+local customdir = (shared.VFEPrivate and "vapefemboyedition/" or shared.VapePrivate and "vapeprivate/" or "vape/")
 local betterisfile = function(file)
 	local suc, res = pcall(function() return readfile(file) end)
 	return suc and res ~= nil
@@ -1691,6 +1691,8 @@ local teleportfunc = game:GetService("Players").LocalPlayer.OnTeleport:Connect(f
 		if shared.VapePrivate then
 			teleportstr = 'shared.VapePrivate = true '..teleportstr
 		end
+		if shared.VFEPrivate then
+			teleportstr = 'shared.VFEPrivate = true '..teleportstr
 		if shared.VapeCustomProfile then 
 			teleportstr = "shared.VapeCustomProfile = '"..shared.VapeCustomProfile.."'"..teleportstr
 		end
@@ -1724,6 +1726,7 @@ GuiLibrary["SelfDestruct"] = function()
 	GuiLibrary["SelfDestructEvent"]:Fire()
 	shared.VapeExecuted = nil
 	shared.VapePrivate = nil
+	shared.VFEPrivate = nil
 	shared.VapeFullyLoaded = nil
 	shared.VapeSwitchServers = nil
 	shared.GuiLibrary = nil
@@ -1744,12 +1747,14 @@ GeneralSettings.CreateButton2({
 	["Name"] = "RESET CURRENT PROFILE", 
 	["Function"] = function()
 		local vapeprivate = shared.VapePrivate
+		local vapefemboyeditionprivate = shared.VFEPrivate
 		local id = (shared.CustomSaveVape or game.PlaceId)
 		GuiLibrary["SelfDestruct"]()
 		delfile(customdir.."Profiles/"..(GuiLibrary["CurrentProfile"] == "default" and "" or GuiLibrary["CurrentProfile"])..id..".vapeprofile.txt")
 		shared.VapeSwitchServers = true
 		shared.VapeOpenGui = true
 		shared.VapePrivate = vapeprivate
+		shared.VFEPrivate = vapefemboyeditionprivate
 		loadstring(GetURL("NewMainScript.lua"))()
 	end
 })
@@ -1861,6 +1866,11 @@ else
 	if shared.VapePrivate then
 		if pcall(function() readfile("vapeprivate/CustomModules/"..game.PlaceId..".lua") end) then
 			loadstring(readfile("vapeprivate/CustomModules/"..game.PlaceId..".lua"))()
+		end	
+	end
+	if shared.VFWPrivate then
+		if pcall(function() readfile("vapefemboyedition/CustomModules/"..game.PlaceId..".lua") end) then
+			loadstring(readfile("vapefemboyedition/CustomModules/"..game.PlaceId..".lua"))()
 		end	
 	end
 	GuiLibrary["LoadSettings"](shared.VapeCustomProfile)
