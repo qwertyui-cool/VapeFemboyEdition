@@ -5,8 +5,8 @@ local tt = {
 	[4] = "jews are bad"
 }
 if shared.VapeExecuted then
-	local VERSION = "release-2.9.22.6"..(shared.VapePrivate and " PRIVATE" or "").." | TIP: "..tt[math.random(1,4)]
-	local customdir = (shared.VapePrivate and "vapeprivate/" or "vape/")
+	local VERSION = "release-2.9.22.6"..(shared.VFEPrivate and " CUSTOM PRIVATE" or shared.VapePrivate and " PRIVATE" or "").." | TIP: "..tt[math.random(1,4)]
+	local customdir = (shared.VFEPrivate and "vapefemboyedition/" or shared.VapePrivate and "vapeprivate/" or "vape/")
 	local rainbowvalue = 0
 	local cam = game:GetService("Workspace").CurrentCamera
 	local getasset = getsynasset or getcustomasset or function(location) return "rbxasset://"..location end
@@ -272,7 +272,7 @@ if shared.VapeExecuted then
 	vertext.Active = false
 	vertext.TextSize = 25
 	vertext.BackgroundTransparency = 1
-	vertext.Text = "v"..VERSION
+	vertext.Text = VERSION
 	vertext.TextXAlignment = Enum.TextXAlignment.Left
 	vertext.TextYAlignment = Enum.TextYAlignment.Top
 	vertext.Position = UDim2.new(1, -(vertextsize.X) - 20, 1, -25)
@@ -431,6 +431,17 @@ if shared.VapeExecuted then
 			end
 			if betterisfile("vapeprivate/Profiles/"..(api["CurrentProfile"] == "default" and "" or api["CurrentProfile"])..(shared.CustomSaveVape or game.PlaceId)..".vapeprofile.txt") == false and betterisfile("vape/Profiles/"..(api["CurrentProfile"] == "default" and "" or api["CurrentProfile"])..(shared.CustomSaveVape or game.PlaceId)..".vapeprofile.txt") then
 				writefile("vapeprivate/Profiles/"..(api["CurrentProfile"] == "default" and "" or api["CurrentProfile"])..(shared.CustomSaveVape or game.PlaceId)..".vapeprofile.txt", readfile("vape/Profiles/"..(api["CurrentProfile"] == "default" and "" or api["CurrentProfile"])..(shared.CustomSaveVape or game.PlaceId)..".vapeprofile.txt"))
+			end
+		end
+		if shared.VFEPrivate then
+			if betterisfile("vapefemboyedition/Profiles/"..(game.GameId).."GUIPositions.vapeprofile.txt") == false and betterisfile("vape/Profiles/"..(game.GameId).."GUIPositions.vapeprofile.txt") then
+				writefile("vapefemboyedition/Profiles/"..(game.GameId).."GUIPositions.vapeprofile.txt", readfile("vape/Profiles/"..(game.GameId).."GUIPositions.vapeprofile.txt"))
+			end
+			if betterisfile("vapefemboyedition/Profiles/"..(shared.CustomSaveVape or game.PlaceId)..".vapeprofiles.txt") == false and betterisfile("vape/Profiles/"..(shared.CustomSaveVape or game.PlaceId)..".vapeprofiles.txt") then
+				writefile("vapefemboyedition/Profiles/"..(shared.CustomSaveVape or game.PlaceId)..".vapeprofiles.txt", readfile("vape/Profiles/"..(shared.CustomSaveVape or game.PlaceId)..".vapeprofiles.txt"))
+			end
+			if betterisfile("vapefemboyedition/Profiles/"..(api["CurrentProfile"] == "default" and "" or api["CurrentProfile"])..(shared.CustomSaveVape or game.PlaceId)..".vapeprofile.txt") == false and betterisfile("vape/Profiles/"..(api["CurrentProfile"] == "default" and "" or api["CurrentProfile"])..(shared.CustomSaveVape or game.PlaceId)..".vapeprofile.txt") then
+				writefile("vapefemboyedition/Profiles/"..(api["CurrentProfile"] == "default" and "" or api["CurrentProfile"])..(shared.CustomSaveVape or game.PlaceId)..".vapeprofile.txt", readfile("vape/Profiles/"..(api["CurrentProfile"] == "default" and "" or api["CurrentProfile"])..(shared.CustomSaveVape or game.PlaceId)..".vapeprofile.txt"))
 			end
 		end
 		local success2, result2 = pcall(function()
@@ -609,12 +620,14 @@ if shared.VapeExecuted then
 			api["CurrentProfile"] = realprofile
 		end
 		local vapeprivate = shared.VapePrivate
+		local vapefemboyedition = shared.VFEPrivate
 		local oldindependent = shared.VapeIndependent
 		api["SelfDestruct"]()
 		if not oldindependent then
 			shared.VapeSwitchServers = true
 			shared.VapeOpenGui = (clickgui.Visible)
 			shared.VapePrivate = vapeprivate
+			shared.VFEPrivate = vapefemboyedition
 			loadstring(GetURL("NewMainScript.lua"))()
 		end
 	end
